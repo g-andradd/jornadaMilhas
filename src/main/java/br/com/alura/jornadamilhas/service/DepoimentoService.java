@@ -1,11 +1,13 @@
 package br.com.alura.jornadamilhas.service;
 
 import br.com.alura.jornadamilhas.dto.DepoimentoDto;
+import br.com.alura.jornadamilhas.exception.ResourceNotFoundException;
 import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.mapper.DepoimentoMapper;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import br.com.alura.jornadamilhas.repository.DepoimentoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class DepoimentoService {
         return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public DepoimentoDto inserir(DepoimentoForm form) {
         Depoimento depoimento = new DepoimentoMapper().cadastrar(form);
         depoimentoRepository.save(depoimento);
@@ -32,4 +35,12 @@ public class DepoimentoService {
         return new DepoimentoDto(depoimento);
     }
 
+    @Transactional
+    public DepoimentoDto atualizar(Long id, DepoimentoForm form) {
+        Depoimento depoimento = depoimentoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+
+        Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
+        return new DepoimentoDto(atualizado);
+    }
 }

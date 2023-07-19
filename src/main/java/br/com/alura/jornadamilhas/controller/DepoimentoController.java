@@ -6,10 +6,7 @@ import br.com.alura.jornadamilhas.service.DepoimentoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -26,16 +23,24 @@ public class DepoimentoController {
         this.depoimentoService = depoimentoService;
     }
 
+    @GetMapping
     public ResponseEntity<List<DepoimentoDto>> listar() {
 
         return ResponseEntity.ok().body(depoimentoService.listar());
     }
 
+    @PostMapping
     public ResponseEntity<DepoimentoDto> inserir(@RequestBody @Valid DepoimentoForm form, UriComponentsBuilder uriBuilder) {
         DepoimentoDto depoimentoDto = depoimentoService.inserir(form);
 
         URI uri = uriBuilder.path("/depoimentos/{id}").buildAndExpand(depoimentoDto.getId()).toUri();
         return ResponseEntity.created(uri).body(depoimentoDto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<DepoimentoDto> atualizar(@PathVariable Long id, @RequestBody DepoimentoForm form) {
+        DepoimentoDto depoimentoDto = depoimentoService.atualizar(id, form);
+        return ResponseEntity.ok().body(depoimentoDto);
     }
 
 }
