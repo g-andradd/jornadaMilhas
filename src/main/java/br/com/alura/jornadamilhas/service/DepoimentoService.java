@@ -1,11 +1,14 @@
 package br.com.alura.jornadamilhas.service;
 
 import br.com.alura.jornadamilhas.dto.DepoimentoDto;
+import br.com.alura.jornadamilhas.exception.DatabaseException;
 import br.com.alura.jornadamilhas.exception.ResourceNotFoundException;
 import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.mapper.DepoimentoMapper;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import br.com.alura.jornadamilhas.repository.DepoimentoRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +45,17 @@ public class DepoimentoService {
 
         Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
         return new DepoimentoDto(atualizado);
+    }
+
+    public void remover(Long id) {
+        try {
+            depoimentoRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id do depoimento não encontrado: " + id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de integridade");
+        }
     }
 }

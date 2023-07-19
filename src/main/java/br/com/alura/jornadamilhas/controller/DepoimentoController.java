@@ -37,10 +37,16 @@ public class DepoimentoController {
         return ResponseEntity.created(uri).body(depoimentoDto);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping( "/{id}")
     public ResponseEntity<DepoimentoDto> atualizar(@PathVariable Long id, @RequestBody DepoimentoForm form) {
         DepoimentoDto depoimentoDto = depoimentoService.atualizar(id, form);
         return ResponseEntity.ok().body(depoimentoDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        depoimentoService.remover(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
