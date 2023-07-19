@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class JornadaMilhasApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JornadaMilhasApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JornadaMilhasApplication.class, args);
+    }
 
 }
