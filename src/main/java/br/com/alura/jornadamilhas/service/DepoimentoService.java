@@ -7,11 +7,17 @@ import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.mapper.DepoimentoMapper;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import br.com.alura.jornadamilhas.repository.DepoimentoRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +26,7 @@ public class DepoimentoService {
 
     private final DepoimentoRepository depoimentoRepository;
 
-    public DepoimentoService(DepoimentoRepository depoimentoRepository) {
+    public DepoimentoService(@Qualifier("depoimentoRepository") DepoimentoRepository depoimentoRepository) {
         this.depoimentoRepository = depoimentoRepository;
     }
 
@@ -39,15 +45,16 @@ public class DepoimentoService {
     }
 
     @Transactional
-    public DepoimentoDto atualizar(Long id, DepoimentoForm form) {
-        Depoimento depoimento = depoimentoRepository.findById(id)
+    public DepoimentoDto atualizar(String id, DepoimentoForm form) {
+        Depoimento depoimento = depoimentoRepository
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
 
         Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
         return new DepoimentoDto(atualizado);
     }
 
-    public void remover(Long id) {
+    public void remover(String id) {
         try {
             depoimentoRepository.deleteById(id);
         }
@@ -57,5 +64,11 @@ public class DepoimentoService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Violação de integridade");
         }
+    }
+
+    public List<DepoimentoDto> listarHome(int quantidade) {
+        List<Depoimento> depoimentos = depoimentoRepository.findRandomDepoimentos(quantidade);
+
+        return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
     }
 }
