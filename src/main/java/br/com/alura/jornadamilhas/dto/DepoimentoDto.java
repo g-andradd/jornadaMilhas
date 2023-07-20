@@ -1,12 +1,10 @@
 package br.com.alura.jornadamilhas.dto;
 
 import br.com.alura.jornadamilhas.model.Depoimento;
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 
 public class DepoimentoDto {
 
-    private final Long id;
+    private final String id;
     private final String foto;
     private final String depoimento;
     private final String cliente;
@@ -18,7 +16,7 @@ public class DepoimentoDto {
         this.cliente = depoimento.getCliente();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

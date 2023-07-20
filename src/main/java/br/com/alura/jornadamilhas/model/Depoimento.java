@@ -1,24 +1,18 @@
 package br.com.alura.jornadamilhas.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "depoimentos")
+@Document(collection = "depoimentos")
 public class Depoimento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 10)
-    private Long id;
+    private String id;
 
-    @Lob
-    @Column(nullable=false, columnDefinition = "TEXT")
     private String foto;
 
-    @Column(nullable=false)
     private String depoimento;
 
-    @Column(nullable=false, length = 100)
     private String cliente;
 
     public Depoimento() {
@@ -30,7 +24,7 @@ public class Depoimento {
         this.cliente = cliente;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
