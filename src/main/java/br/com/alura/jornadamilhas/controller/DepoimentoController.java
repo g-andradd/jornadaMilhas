@@ -22,8 +22,8 @@ public class DepoimentoController {
     }
 
     @GetMapping("/depoimentos")
-    public ResponseEntity<List<DepoimentoDto>> listar() {
-        return ResponseEntity.ok(depoimentoService.listar());
+    public ResponseEntity<List<DepoimentoDto>> buscarTodos() {
+        return ResponseEntity.ok(depoimentoService.buscarTodos());
     }
 
     @GetMapping("/depoimentos-home")

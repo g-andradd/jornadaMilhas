@@ -25,7 +25,7 @@ public class DepoimentoService {
         this.depoimentoRepository = depoimentoRepository;
     }
 
-    public List<DepoimentoDto> listar() {
+    public List<DepoimentoDto> buscarTodos() {
         List<Depoimento> depoimentos = depoimentoRepository.findAll();
 
         return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
@@ -43,7 +43,7 @@ public class DepoimentoService {
     public DepoimentoDto atualizar(String id, DepoimentoForm form) {
         Depoimento depoimento = depoimentoRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Depoimento não encontrado: " + id));
 
         Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
         return new DepoimentoDto(atualizado);
@@ -54,7 +54,7 @@ public class DepoimentoService {
             depoimentoRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Id do depoimento não encontrado: " + id);
+            throw new ResourceNotFoundException("Depoimento não encontrado: " + id);
         }
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Violação de integridade");
