@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 
 public class DestinoDto {
 
-
     private final String id;
     private final String foto;
     private final String nome;
