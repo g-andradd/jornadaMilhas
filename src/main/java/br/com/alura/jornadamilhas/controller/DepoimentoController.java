@@ -22,8 +22,8 @@ public class DepoimentoController {
     }
 
     @GetMapping("/depoimentos")
-    public ResponseEntity<List<DepoimentoDto>> listar() {
-        return ResponseEntity.ok(depoimentoService.listar());
+    public ResponseEntity<List<DepoimentoDto>> buscarTodos() {
+        return ResponseEntity.ok(depoimentoService.buscarTodos());
     }
 
     @GetMapping("/depoimentos-home")
@@ -46,7 +46,7 @@ public class DepoimentoController {
     }
 
     @DeleteMapping("/depoimentos/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable String id) {
+    public ResponseEntity<Void> remover(@PathVariable String id) {
         depoimentoService.remover(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,6 +1,7 @@
 package br.com.alura.jornadamilhas.model;
 
-import jakarta.persistence.Id;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "depoimentos")

@@ -7,17 +7,12 @@ import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.mapper.DepoimentoMapper;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import br.com.alura.jornadamilhas.repository.DepoimentoRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +21,11 @@ public class DepoimentoService {
 
     private final DepoimentoRepository depoimentoRepository;
 
-    public DepoimentoService(@Qualifier("depoimentoRepository") DepoimentoRepository depoimentoRepository) {
+    public DepoimentoService(DepoimentoRepository depoimentoRepository) {
         this.depoimentoRepository = depoimentoRepository;
     }
 
-    public List<DepoimentoDto> listar() {
+    public List<DepoimentoDto> buscarTodos() {
         List<Depoimento> depoimentos = depoimentoRepository.findAll();
 
         return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
@@ -48,7 +43,7 @@ public class DepoimentoService {
     public DepoimentoDto atualizar(String id, DepoimentoForm form) {
         Depoimento depoimento = depoimentoRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Id not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Depoimento não encontrado: " + id));
 
         Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
         return new DepoimentoDto(atualizado);
@@ -59,7 +54,7 @@ public class DepoimentoService {
             depoimentoRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Id do depoimento não encontrado: " + id);
+            throw new ResourceNotFoundException("Depoimento não encontrado: " + id);
         }
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Violação de integridade");

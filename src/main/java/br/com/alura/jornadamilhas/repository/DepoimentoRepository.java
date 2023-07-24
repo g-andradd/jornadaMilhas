@@ -3,7 +3,6 @@ package br.com.alura.jornadamilhas.repository;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
