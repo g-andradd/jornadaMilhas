@@ -2,7 +2,6 @@ package br.com.alura.jornadamilhas.controller;
 
 import br.com.alura.jornadamilhas.dto.DestinoDto;
 import br.com.alura.jornadamilhas.form.DestinoForm;
-import br.com.alura.jornadamilhas.model.Destino;
 import br.com.alura.jornadamilhas.service.DestinoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +23,12 @@ public class DestinoController {
     @GetMapping
     public ResponseEntity<List<DestinoDto>> buscarTodos() {
         List<DestinoDto> destinoDtoList = destinoService.buscarTodos();
-
         return ResponseEntity.ok(destinoDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DestinoDto> buscarPorId(@PathVariable String id) {
         DestinoDto destinoDto = destinoService.buscarPorId(id);
-
         return ResponseEntity.ok(destinoDto);
     }
 
@@ -46,8 +43,13 @@ public class DestinoController {
     @PutMapping("/{id}")
     public ResponseEntity<DestinoDto> atualizar(@PathVariable String id, @RequestBody @Valid DestinoForm form) {
         DestinoDto destinoDto = destinoService.atualizar(id, form);
-
         return ResponseEntity.ok(destinoDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remover(@PathVariable String id) {
+        destinoService.remover(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

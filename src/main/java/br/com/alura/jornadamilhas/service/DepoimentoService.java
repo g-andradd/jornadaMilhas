@@ -21,7 +21,7 @@ public class DepoimentoService {
 
     private final DepoimentoRepository depoimentoRepository;
 
-    public DepoimentoService(@Qualifier("depoimentoRepository") DepoimentoRepository depoimentoRepository) {
+    public DepoimentoService(DepoimentoRepository depoimentoRepository) {
         this.depoimentoRepository = depoimentoRepository;
     }
 

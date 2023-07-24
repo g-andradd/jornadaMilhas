@@ -1,12 +1,15 @@
 package br.com.alura.jornadamilhas.service;
 
 import br.com.alura.jornadamilhas.dto.DestinoDto;
+import br.com.alura.jornadamilhas.exception.DatabaseException;
 import br.com.alura.jornadamilhas.exception.ResourceNotFoundException;
 import br.com.alura.jornadamilhas.form.DestinoForm;
 import br.com.alura.jornadamilhas.mapper.DestinoMapper;
 import br.com.alura.jornadamilhas.model.Destino;
 import br.com.alura.jornadamilhas.repository.DestinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +19,11 @@ import java.util.stream.Collectors;
 @Service
 public class DestinoService {
 
-    @Autowired
-    private DestinoRepository destinoRepository;
+    private final DestinoRepository destinoRepository;
+
+    public DestinoService(DestinoRepository destinoRepository) {
+        this.destinoRepository = destinoRepository;
+    }
 
     public List<DestinoDto> buscarTodos() {
         List<Destino> destinos = destinoRepository
@@ -43,6 +49,7 @@ public class DestinoService {
         return new DestinoDto(destino);
     }
 
+    @Transactional
     public DestinoDto atualizar(String id, DestinoForm form) {
         Destino destino = destinoRepository
                 .findById(id)
@@ -51,5 +58,17 @@ public class DestinoService {
         Destino atualizado = new DestinoMapper().atualizar(destino, form);
 
         return new DestinoDto(atualizado);
+    }
+
+    public void remover(String id) {
+        try {
+            destinoRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Depoimento não encontrado: " + id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de integridade");
+        }
     }
 }

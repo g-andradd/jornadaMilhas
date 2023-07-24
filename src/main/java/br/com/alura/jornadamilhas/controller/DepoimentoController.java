@@ -46,7 +46,7 @@ public class DepoimentoController {
     }
 
     @DeleteMapping("/depoimentos/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable String id) {
+    public ResponseEntity<Void> remover(@PathVariable String id) {
         depoimentoService.remover(id);
         return ResponseEntity.noContent().build();
     }
