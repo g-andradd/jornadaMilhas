@@ -16,9 +16,11 @@ import java.util.List;
 @RequestMapping("/destinos")
 @CrossOrigin
 public class DestinoController {
+    private final DestinoService destinoService;
 
-    @Autowired
-    private DestinoService destinoService;
+    public DestinoController(DestinoService destinoService) {
+        this.destinoService = destinoService;
+    }
 
     @GetMapping
     public ResponseEntity<List<DestinoDto>> buscarTodos() {
@@ -36,7 +38,7 @@ public class DestinoController {
     public ResponseEntity<DestinoDto> inserir(@RequestBody @Valid DestinoForm form, UriComponentsBuilder uriBuilder) {
         DestinoDto destinoDto = destinoService.inserir(form);
 
-        URI uri = uriBuilder.path("/destinos/{id}").buildAndExpand(destinoDto.getId()).toUri();
+        URI uri = uriBuilder.path("/destinos/{id}").buildAndExpand(destinoDto.id()).toUri();
         return ResponseEntity.created(uri).body(destinoDto);
     }
 
