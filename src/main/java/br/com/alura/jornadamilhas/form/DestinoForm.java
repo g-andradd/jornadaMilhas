@@ -32,6 +32,12 @@ public class DestinoForm {
         return preco;
     }
 
+    public DestinoForm(String foto, String nome, BigDecimal preco) {
+        this.foto = foto;
+        this.nome = nome;
+        this.preco = preco;
+    }
+
     public void setFoto(String foto) {
         this.foto = foto;
     }

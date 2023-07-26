@@ -7,7 +7,6 @@ import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.mapper.DepoimentoMapper;
 import br.com.alura.jornadamilhas.model.Depoimento;
 import br.com.alura.jornadamilhas.repository.DepoimentoRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

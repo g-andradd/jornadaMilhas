@@ -41,6 +41,13 @@ public class DestinoService {
         return new DestinoDto(destino);
     }
 
+    public List<DestinoDto> buscarPorNome(String nome) {
+        List<Destino> destinos = destinoRepository
+                .findByNome(nome);
+
+        return destinos.stream().map(DestinoDto::new).collect(Collectors.toList());
+    }
+
     @Transactional
     public DestinoDto inserir(DestinoForm form) {
         Destino destino = new DestinoMapper().cadastrar(form);

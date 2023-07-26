@@ -4,6 +4,7 @@ import br.com.alura.jornadamilhas.dto.DepoimentoDto;
 import br.com.alura.jornadamilhas.form.DepoimentoForm;
 import br.com.alura.jornadamilhas.service.DepoimentoService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +18,7 @@ public class DepoimentoController {
 
     private final DepoimentoService depoimentoService;
 
+    @Autowired
     public DepoimentoController(DepoimentoService depoimentoService) {
         this.depoimentoService = depoimentoService;
     }
@@ -35,7 +37,7 @@ public class DepoimentoController {
     public ResponseEntity<DepoimentoDto> inserir(@RequestBody @Valid DepoimentoForm form, UriComponentsBuilder uriBuilder) {
         DepoimentoDto depoimentoDto = depoimentoService.inserir(form);
 
-        URI uri = uriBuilder.path("/depoimentos/{id}").buildAndExpand(depoimentoDto.getId()).toUri();
+        URI uri = uriBuilder.path("/depoimentos/{id}").buildAndExpand(depoimentoDto.id()).toUri();
         return ResponseEntity.created(uri).body(depoimentoDto);
     }
 
