@@ -9,8 +9,11 @@ import java.math.BigDecimal;
 
 public class DestinoForm {
 
-    @NotBlank(message = "A foto não pode estar em branco")
-    private String foto;
+    @NotBlank(message = "A foto 1 não pode estar em branco")
+    private String foto1;
+
+    @NotBlank(message = "A foto 2 não pode estar em branco")
+    private String foto2;
 
     @NotBlank(message = "O nome não pode estar em branco")
     @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
@@ -20,8 +23,18 @@ public class DestinoForm {
     @Positive(message = "O preço deve estar positivo")
     private BigDecimal preco;
 
-    public String getFoto() {
-        return foto;
+    @Size(max = 160)
+    @NotNull(message = "A meta não pode estar nula")
+    private String meta;
+
+    private String textoDescritivo;
+
+    public String getFoto1() {
+        return foto1;
+    }
+
+    public String getFoto2() {
+        return foto2;
     }
 
     public String getNome() {
@@ -32,21 +45,11 @@ public class DestinoForm {
         return preco;
     }
 
-    public DestinoForm(String foto, String nome, BigDecimal preco) {
-        this.foto = foto;
-        this.nome = nome;
-        this.preco = preco;
+    public String getMeta() {
+        return meta;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
+    public String getTextoDescritivo() {
+        return textoDescritivo;
     }
 }
