@@ -27,22 +27,4 @@ public class DepoimentoForm {
     public String getCliente() {
         return cliente;
     }
-
-    public DepoimentoForm(String foto, String depoimento, String cliente) {
-        this.foto = foto;
-        this.depoimento = depoimento;
-        this.cliente = cliente;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
-    public void setDepoimento(String depoimento) {
-        this.depoimento = depoimento;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
 }
