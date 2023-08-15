@@ -36,7 +36,7 @@ public class DestinoController {
         return ResponseEntity.ok(destinoDto);
     }
 
-    @GetMapping
+    @GetMapping(params = "nome")
     public ResponseEntity<?> buscarPorNome(@RequestParam("nome") String nome) {
         List<DestinoDto> destinoDtoList = destinoService.buscarPorNome(nome);
 

@@ -27,6 +27,7 @@ public class DestinoForm {
     @NotNull(message = "A meta não pode estar nula")
     private String meta;
 
+    @Size(max = 1000)
     private String textoDescritivo;
 
     public String getFoto1() {
@@ -51,5 +52,29 @@ public class DestinoForm {
 
     public String getTextoDescritivo() {
         return textoDescritivo;
+    }
+
+    public void setFoto1(String foto1) {
+        this.foto1 = foto1;
+    }
+
+    public void setFoto2(String foto2) {
+        this.foto2 = foto2;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public void setMeta(String meta) {
+        this.meta = meta;
+    }
+
+    public void setTextoDescritivo(String textoDescritivo) {
+        this.textoDescritivo = textoDescritivo;
     }
 }
