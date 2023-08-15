@@ -42,14 +42,14 @@ Para executar o projeto, siga os passos abaixo:
    ```
    
 4. Navegue até o diretório do projeto:
-  ```sh
-  cd jornadaMilhas
-  ```
+   ```sh
+   cd jornadaMilhas
+   ```
 
 5. Build e rode o projeto usando o Maven:
-  ```sh
-  mvn spring-boot:run
-  ```
+   ```sh
+   mvn spring-boot:run
+   ```
 
 6. Acesse a API em http://localhost:8080.
 
