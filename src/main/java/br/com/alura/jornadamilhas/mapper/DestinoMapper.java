@@ -1,31 +1,39 @@
 package br.com.alura.jornadamilhas.mapper;
 
+import br.com.alura.jornadamilhas.dto.DestinoDto;
 import br.com.alura.jornadamilhas.form.DestinoForm;
 import br.com.alura.jornadamilhas.model.Destino;
+import br.com.alura.jornadamilhas.util.ChatGPTClient;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Component
 public class DestinoMapper {
 
-    public Destino cadastrar(DestinoForm form) {
-        List<String> fotos = new ArrayList<>();
-        fotos.add(form.getFoto1());
-        fotos.add(form.getFoto2());
+    private final ModelMapper modelMapper;
+    private final ChatGPTClient gptClient;
 
-        return new Destino(fotos, form.getNome(), form.getPreco(), form.getMeta(), form.getTextoDescritivo());
-
+    public DestinoMapper(ModelMapper modelMapper, ChatGPTClient gptClient) {
+        this.modelMapper = modelMapper;
+        this.gptClient = gptClient;
     }
 
-    public Destino atualizar(Destino destino, DestinoForm form) {
-        List<String> fotos = new ArrayList<>();
-        fotos.add(form.getFoto1());
-        fotos.add(form.getFoto2());
+    public Destino criar(DestinoForm form) {
+        String textoDescritivo = form.getTextoDescritivo();
+        if (textoDescritivo == null || textoDescritivo.trim().isEmpty()) {
+            textoDescritivo = gptClient.gerarTextoDescritivo(form.getNome());
 
-        destino.setFotos(fotos);
-        destino.setNome(form.getNome());
-        destino.setPreco(form.getPreco());
+            form.setTextoDescritivo(textoDescritivo);
+        }
 
-        return destino;
+        return modelMapper.map(form, Destino.class);
+    }
+
+    public void atualizar(DestinoForm form, Destino destino) {
+        modelMapper.map(form, destino);
+    }
+
+    public DestinoDto criarDto(Destino destino) {
+        return modelMapper.map(destino, DestinoDto.class);
     }
 }

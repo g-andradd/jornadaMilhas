@@ -19,23 +19,25 @@ import java.util.stream.Collectors;
 public class DepoimentoService {
 
     private final DepoimentoRepository depoimentoRepository;
+    private final DepoimentoMapper depoimentoMapper;
 
-    public DepoimentoService(DepoimentoRepository depoimentoRepository) {
+    public DepoimentoService(DepoimentoRepository depoimentoRepository, DepoimentoMapper depoimentoMapper) {
         this.depoimentoRepository = depoimentoRepository;
+        this.depoimentoMapper = depoimentoMapper;
     }
 
     public List<DepoimentoDto> buscarTodos() {
         List<Depoimento> depoimentos = depoimentoRepository.findAll();
-
-        return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
+        return depoimentos.stream()
+                .map(DepoimentoDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public DepoimentoDto inserir(DepoimentoForm form) {
-        Depoimento depoimento = new DepoimentoMapper().cadastrar(form);
+        Depoimento depoimento = depoimentoMapper.criar(form);
         depoimentoRepository.save(depoimento);
-
-        return new DepoimentoDto(depoimento);
+        return depoimentoMapper.criarDto(depoimento);
     }
 
     @Transactional
@@ -44,25 +46,25 @@ public class DepoimentoService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Depoimento não encontrado: " + id));
 
-        Depoimento atualizado = new DepoimentoMapper().atualizar(depoimento, form);
-        return new DepoimentoDto(atualizado);
+        depoimentoMapper.atualizar(depoimento, form);
+        depoimentoRepository.save(depoimento);
+        return depoimentoMapper.criarDto(depoimento);
     }
 
     public void remover(String id) {
         try {
             depoimentoRepository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Depoimento não encontrado: " + id);
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Violação de integridade");
         }
     }
 
     public List<DepoimentoDto> listarHome(int quantidade) {
         List<Depoimento> depoimentos = depoimentoRepository.findRandomDepoimentos(quantidade);
-
-        return depoimentos.stream().map(DepoimentoDto::new).collect(Collectors.toList());
+        return depoimentos.stream()
+                .map(DepoimentoDto::new)
+                .collect(Collectors.toList());
     }
 }
