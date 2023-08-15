@@ -1,0 +1,27 @@
+[
+  {
+    "foto": "imagem1",
+    "depoimento": "Este lugar é incrível! Adorei a viagem! Maravilhoso!",
+    "cliente": "Maria Cardoso Silva"
+  },
+  {
+    "foto": "imagem2",
+    "depoimento": "Site muito legal!",
+    "cliente": "Daniel Satriani"
+  },
+  {
+    "foto": "imagem3",
+    "depoimento": "site muito bom! minha viagem foi incrivel!",
+    "cliente": "Carla Souza"
+  },
+  {
+    "foto": "imagem4",
+    "depoimento": "Realizei a viagem dos meus sonhos por aqui!",
+    "cliente": "Gina Almeida"
+  },
+  {
+    "foto": "imagem5",
+    "depoimento": "Meu site favorito para viagens!",
+    "cliente": "Gabriel Andrade"
+  }
+]
